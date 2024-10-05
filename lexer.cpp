@@ -14,15 +14,18 @@ void Lexer::displayCode() const {
 void Lexer::displayTokens() const {
 	for(const auto& token : tokens)
 	{
-		std::cout << token.getValue() << std::endl;
+		token.displaySelf();
 	}
 }
 
-void Lexer::lex() {
+std::vector<Token> Lexer::lex() {
 	while(pointer < code.length()) {
 		std::cout << code[pointer] << std::endl;
 		tokens.push_back(getNextToken());
 	}
+	tokens.push_back(Token(TokenType::TOKEN_EOF, "EOF"));
+
+	return tokens;
 }
 
 void Lexer::advance() {
@@ -55,8 +58,9 @@ Token Lexer::getNextToken() {
 		return Token(TokenType::TOKEN_AS, "as");
 	} else if (isdigit(code[pointer])) { //only works for positive ints at the moment
 		return Token(TokenType::TOKEN_INTEGER, getInteger());
-	} else if (code.substr(pointer, 2) == "\\n") {
-		return Token(TokenType::TOKEN_NEWLINE, "\\n");
+	} else if (code.substr(pointer, 1) == "\n") {
+		pointer += 1;
+		return Token(TokenType::TOKEN_NEWLINE, "\n");
 	}
 	else {
 		return Token(TokenType::TOKEN_ID, getIdentifier()); // TODO: Figure out why this gives a crazy result
@@ -66,7 +70,7 @@ Token Lexer::getNextToken() {
 
 std::string Lexer::getIdentifier() {
 	std::string readID = "";
-	while(code[pointer] != ' ') {
+	while(pointer < code.length() && code[pointer] != ' ') {
 		std::cout << code[pointer] << std::endl;
 		readID += code[pointer];
 		advance();
@@ -78,7 +82,7 @@ std::string Lexer::getIdentifier() {
 std::string Lexer::getInteger() {
 	std::string readInt = "";
 
-	while(isdigit(code[pointer])) {
+	while(pointer < code.length() && isdigit(code[pointer])) {
 		readInt += code[pointer];
 		advance();
 	}
@@ -88,7 +92,7 @@ std::string Lexer::getInteger() {
 
 std::string Lexer::getSymbol() {
 	std::string readSymbol = "";
-	while(code[pointer] != ' ') {
+	while(pointer < code.length() && code[pointer] != ' ') {
 		readSymbol += code[pointer];
 		advance();
 	}
@@ -106,4 +110,5 @@ std::string Lexer::collectString() {
 	pointer += 8;
 	return readString;
 }
+
 

@@ -17,6 +17,7 @@ public:
 	Token(TokenType type, const std::string& value);
 	TokenType getType() const;
 	std::string getValue() const;
+	void displaySelf() const;
 
 private:
 	TokenType type;

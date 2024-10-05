@@ -18,7 +18,7 @@ public:
 
 	void displayTokens() const;
 
-	void lex();
+	std::vector<Token> lex();
 
 	void advance();
 
