@@ -69,7 +69,7 @@ Token Lexer::getNextToken() {
 
 std::string Lexer::getIdentifier() {
 	std::string readID = "";
-	while(pointer < code.length() && code[pointer] != ' ') {
+	while(pointer < code.length() && code[pointer] != ' ' && code[pointer] != '\n') {
 		readID += code[pointer];
 		advance();
 	}
@@ -90,7 +90,7 @@ std::string Lexer::getInteger() {
 
 std::string Lexer::getSymbol() {
 	std::string readSymbol = "";
-	while(pointer < code.length() && code[pointer] != ' ') {
+	while(pointer < code.length() && code[pointer] != ' ' && code[pointer != '\n']) {
 		readSymbol += code[pointer];
 		advance();
 	}

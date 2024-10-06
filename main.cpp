@@ -4,21 +4,32 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 int main() {
 
-	std::string code = "give y as 10\nsay y";
-	std::string test = "say y";
+
+	std::ifstream codefile("main.speak");
+	std::string str;
+	std::string code;
+	while (std::getline(codefile, str)) {
+		code += str;
+		code.push_back('\n');
+	}
+
+	//std::cout << code <<std::endl;
+
 	Lexer myLexer(code);
 
 	std::vector<Token> tokens =  myLexer.lex();
+
+	//myLexer.displayTokens();
 
 	Parser myParser(tokens);
 
 	myParser.parse();
 
 	//std::cout << "Displaying tokens:" << std::endl;
-	//myLexer.displayTokens();
 
 	return 0;
 }

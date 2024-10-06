@@ -47,6 +47,7 @@ void Parser::assignSymbol(Token token) {
 
 void Parser::sayStatement() {
     advance(); // skip say token
+
     while (tokens[pointer].getType() != TOKEN_NEWLINE && tokens[pointer].getType() != TOKEN_EOF) {
         if (tokens[pointer].getType() == TOKEN_STRING) {
             std::cout << tokens[pointer].getValue();
@@ -61,6 +62,7 @@ void Parser::sayStatement() {
         advance();
 
     }
+    std::cout << "\n";
 }
 
 bool Parser::isIntSymbol(std::string symbol) const {

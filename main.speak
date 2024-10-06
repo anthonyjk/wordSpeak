@@ -1,5 +1,13 @@
-say words this is a long string
+say words this is a long string endwords
 
-give variable as words another long string
+give variable as words another long string endwords
+
+give x as 10000
 
 say variable
+
+say x
+
+say words so this is a string basically. endwords
+
+say variable x

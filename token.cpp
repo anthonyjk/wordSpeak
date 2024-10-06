@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <algorithm>
 
 Token::Token(TokenType type, const std::string& value)
 	: type(type), value(value) {}
