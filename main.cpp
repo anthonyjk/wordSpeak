@@ -7,7 +7,7 @@
 
 int main() {
 
-	std::string code = "give y as 10\nsay words this is a string endwords";
+	std::string code = "give y as 10\nsay y";
 	std::string test = "say y";
 	Lexer myLexer(code);
 

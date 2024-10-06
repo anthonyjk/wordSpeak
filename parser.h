@@ -22,10 +22,13 @@ public:
 
     void checkID();
 
-    void assignSymbol();
+    void assignSymbol(Token token);
 
     void sayStatement();
 
+    bool isIntSymbol(std::string symbol) const;
+
+    bool isStrSymbol(std::string symbol) const;
 };
 
 #endif

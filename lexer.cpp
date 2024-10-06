@@ -20,7 +20,6 @@ void Lexer::displayTokens() const {
 
 std::vector<Token> Lexer::lex() {
 	while(pointer < code.length()) {
-		std::cout << code[pointer] << std::endl;
 		tokens.push_back(getNextToken());
 	}
 	tokens.push_back(Token(TokenType::TOKEN_EOF, "EOF"));
@@ -71,7 +70,6 @@ Token Lexer::getNextToken() {
 std::string Lexer::getIdentifier() {
 	std::string readID = "";
 	while(pointer < code.length() && code[pointer] != ' ') {
-		std::cout << code[pointer] << std::endl;
 		readID += code[pointer];
 		advance();
 	}
