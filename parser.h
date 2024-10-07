@@ -22,7 +22,13 @@ public:
 
     void checkID();
 
+    int expression();
+
+    int getNextInt();
+
     void assignSymbol(Token token);
+
+    void defaultDisplay();
 
     void sayStatement();
 

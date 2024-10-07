@@ -60,9 +60,15 @@ Token Lexer::getNextToken() {
 	} else if (code.substr(pointer, 1) == "\n") {
 		pointer += 1;
 		return Token(TokenType::TOKEN_NEWLINE, "\n");
+	} else if (code.substr(pointer, 4) == "plus") {
+		pointer += 4;
+		return Token(TokenType::TOKEN_PLUS, "plus");
+	} else if (code.substr(pointer, 5) == "minus") {
+		pointer += 5;
+		return Token(TokenType::TOKEN_MINUS, "minus");
 	}
 	else {
-		return Token(TokenType::TOKEN_ID, getIdentifier()); // TODO: Figure out why this gives a crazy result
+		return Token(TokenType::TOKEN_ID, getIdentifier());
 	}
 	advance();
 }

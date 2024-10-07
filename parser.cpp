@@ -21,10 +21,13 @@ void Parser::parse() {
             if (tokens[pointer].getType() == TOKEN_AS) {
                 assignSymbol(id_token);
             } else {
-                // print out symbol, if other things in line before NL then return error?
+                pointer -= 1;
+                defaultDisplay();
             }
         } else if (tokens[pointer].getType() == TOKEN_SAY) {
             sayStatement();
+        } else if (tokens[pointer].getType() == TOKEN_INTEGER) {
+            defaultDisplay();
         }
         advance();
     }
@@ -34,14 +37,62 @@ void Parser::checkID() {
     std::cout << "ID Checked!" << std::endl;
 }
 
+int Parser::expression() {
+
+    int total = getNextInt();
+    int current = 0;
+
+    advance();
+
+    while (tokens[pointer].getType() == TOKEN_PLUS || tokens[pointer].getType() == TOKEN_MINUS) {
+        if (tokens[pointer].getType() == TOKEN_PLUS) {
+            advance();
+            current = getNextInt();
+            total = total + current;
+
+        } else if (tokens[pointer].getType() == TOKEN_MINUS) {
+            advance();
+            current = getNextInt();
+            total = total - current;
+
+        }
+        advance();
+    }
+    return total;
+}
+
+int Parser::getNextInt() {
+    int find = 0;
+    if (tokens[pointer].getType() == TOKEN_ID && isIntSymbol(tokens[pointer].getValue())) {
+        find = int_symbols[tokens[pointer].getValue()];
+    }  else if (tokens[pointer].getType() == TOKEN_INTEGER) {
+        find = std::stoi(tokens[pointer].getValue());
+    } else {
+        // raise error
+    }
+
+    return find;
+}
+
 void Parser::assignSymbol(Token token) {
     advance();
     if(tokens[pointer].getType() == TOKEN_INTEGER) {
-        int_symbols[token.getValue()] = std::stoi(tokens[pointer].getValue());
+        int value = expression();
+        int_symbols[token.getValue()] = value;
     } else if (tokens[pointer].getType() == TOKEN_STRING) {
         str_symbols[token.getValue()] = tokens[pointer].getValue();
     } else {
         std::cout << "Issue with assigning symbol." << std::endl;
+    }
+}
+
+void Parser::defaultDisplay() {
+    if (tokens[pointer].getType() == TOKEN_INTEGER) {
+        int value = expression();
+        std::cout << value << std::endl;
+    } else if (tokens[pointer].getType() == TOKEN_ID) {
+        pointer -= 1;
+        sayStatement();
     }
 }
 
@@ -53,10 +104,14 @@ void Parser::sayStatement() {
             std::cout << tokens[pointer].getValue();
         } else if (tokens[pointer].getType() == TOKEN_ID) {
             if (isIntSymbol(tokens[pointer].getValue())) {
-                std::cout << int_symbols[tokens[pointer].getValue()];
+                int value = expression();
+                std::cout << value;
             } else if (isStrSymbol(tokens[pointer].getValue())) {
                 std::cout << str_symbols[tokens[pointer].getValue()];
             }
+        } else if (tokens[pointer].getType() == TOKEN_INTEGER) {
+            int value = expression();
+            std::cout << value;
         }
 
         advance();

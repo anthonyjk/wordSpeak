@@ -1,13 +1,39 @@
-say words this is a long string endwords
+say words now testing addition and subtraction endwords
 
-give variable as words another long string endwords
+say 10 plus 5
 
-give x as 10000
+say words expected 15 endwords
 
-say variable
+say 9 plus 3 minus 2 plus 9 plus 10 plus 7 minus 3 minus 27
 
-say x
+say words expected 6 endwords
 
-say words so this is a string basically. endwords
+5 plus 5
 
-say variable x
+say words expected 10 endwords
+
+give x as 13 plus 7
+
+x
+
+say words expected 20 endwords
+
+give y as 12
+
+say 12 plus y
+
+say words expected 24 endwords
+
+give y as 12
+
+say 12 minus y
+
+say words expected 0 endwords
+
+say y
+
+say words expected 12 endwords
+
+say y plus x
+
+say words expected 32 endwords
