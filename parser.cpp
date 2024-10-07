@@ -81,7 +81,13 @@ void Parser::assignSymbol(Token token) {
         int_symbols[token.getValue()] = value;
     } else if (tokens[pointer].getType() == TOKEN_STRING) {
         str_symbols[token.getValue()] = tokens[pointer].getValue();
-    } else {
+    } else if (tokens[pointer].getType() == TOKEN_ID) {
+        if(isIntSymbol(tokens[pointer].getValue())) {
+            int value = expression();
+            int_symbols[token.getValue()] = value;
+        }
+    }
+    else {
         std::cout << "Issue with assigning symbol." << std::endl;
     }
 }

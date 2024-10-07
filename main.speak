@@ -1,39 +1,15 @@
-say words now testing addition and subtraction endwords
+say words var testing endwords
 
-say 10 plus 5
+give x as 15
 
-say words expected 15 endwords
+give y as 20
 
-say 9 plus 3 minus 2 plus 9 plus 10 plus 7 minus 3 minus 27
+x plus y minus x plus y minus x
 
-say words expected 6 endwords
+say words expected 25 endwords
 
-5 plus 5
+give x as x plus y
 
-say words expected 10 endwords
+say x plus 10
 
-give x as 13 plus 7
-
-x
-
-say words expected 20 endwords
-
-give y as 12
-
-say 12 plus y
-
-say words expected 24 endwords
-
-give y as 12
-
-say 12 minus y
-
-say words expected 0 endwords
-
-say y
-
-say words expected 12 endwords
-
-say y plus x
-
-say words expected 32 endwords
+say words expected 45 endwords
