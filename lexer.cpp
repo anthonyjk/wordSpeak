@@ -37,10 +37,20 @@ void Lexer::skipEmpty() {
 	}
 }
 
+void Lexer::skipLine() {
+	while(code[pointer] != '\n' && pointer < code.length()) {
+		pointer++;
+	}
+}
+
 Token Lexer::getNextToken() {
 
 	if (code[pointer] == ' ') {
 		skipEmpty();
+	}
+
+	if (isalnum(code[pointer]) == false) {
+		skipLine(); // fix this
 	}
 
 	if(code.substr(pointer, 3) == "say") {
@@ -66,6 +76,39 @@ Token Lexer::getNextToken() {
 	} else if (code.substr(pointer, 5) == "minus") {
 		pointer += 5;
 		return Token(TokenType::TOKEN_MINUS, "minus");
+	} else if (code.substr(pointer, 5) == "while") {
+		pointer += 5
+		return Token(TokenType::TOKEN_WHILE, "while");
+	} else if (code.substr(pointer, 2) == "if") {
+		pointer += 2
+		return Token(TokenType::TOKEN_IF, "if");
+	} else if (code.substr(pointer, 4) == "else") {
+		pointer += 4
+		return Token(TokenType::TOKEN_ELSE, "else");
+	} else if (code.substr(pointer, 4) == "same") {
+		pointer += 4
+		return Token(TokenType::TOKEN_SAME, "same");
+	} else if (code.substr(pointer, 2) == "or") {
+		pointer += 2
+		return Token(TokenType::TOKEN_OR, "or");
+	} else if (code.substr(pointer, 3) == "and") {
+		pointer += 3
+		return Token(TokenType::TOKEN_AND, "and");
+	} else if (code.substr(pointer, 4) == "more") {
+		pointer += 4
+		return Token(TokenType::TOKEN_MORE, "more");
+	} else if (code.substr(pointer, 4) == "less") {
+		pointer += 4
+		return Token(TokenType::TOKEN_LESS, "less");
+	} else if (code.substr(pointer, 3) == "not") {
+		pointer += 3
+		return Token(TokenType::TOKEN_NOT, "not");
+	} else if (code.substr(pointer, 4) == "open") {
+		pointer += 4
+		return Token(TokenType::TOKEN_OPEN, "open");
+	} else if (code.substr(pointer, 5) == "close") {
+		pointer += 5
+		return Token(TokenType::TOKEN_CLOSE, "close");
 	}
 	else {
 		return Token(TokenType::TOKEN_ID, getIdentifier());

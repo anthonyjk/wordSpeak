@@ -24,6 +24,8 @@ public:
 
 	void skipEmpty();
 
+	void skipLine();
+
 	Token getNextToken();
 
 	std::string getIdentifier();
