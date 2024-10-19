@@ -28,6 +28,12 @@ void Parser::parse() {
             sayStatement();
         } else if (tokens[pointer].getType() == TOKEN_INTEGER) {
             defaultDisplay();
+        } else if (tokens[pointer].getType() == TOKEN_IF) {
+            conditional();
+        }
+
+        else if (tokens[pointer].getType() == TOKEN_WHILE) {
+            whileLoop();
         }
         advance();
     }
@@ -140,4 +146,22 @@ bool Parser::isStrSymbol(std::string symbol) const {
     return false;
 }
 
+void Parser::conditional() {
+    std::vector<Token> conditions;
+    advance();
+    while(tokens[pointer].getType() != TOKEN_OPEN) {
+        if(tokens[pointer].getType() == TOKEN_NEWLINE) {
+            // Raise error
+        }
+        conditions.push_back(tokens[pointer]);
+        advance();
+    }
+    for (int i = 0; i < conditions.size(); i++) {
+        std::cout << "test";//conditions[i];
+    }
+}
+
+void Parser::whileLoop() {
+    // pass
+}
 

@@ -77,37 +77,37 @@ Token Lexer::getNextToken() {
 		pointer += 5;
 		return Token(TokenType::TOKEN_MINUS, "minus");
 	} else if (code.substr(pointer, 5) == "while") {
-		pointer += 5
+		pointer += 5;
 		return Token(TokenType::TOKEN_WHILE, "while");
 	} else if (code.substr(pointer, 2) == "if") {
-		pointer += 2
+		pointer += 2;
 		return Token(TokenType::TOKEN_IF, "if");
 	} else if (code.substr(pointer, 4) == "else") {
-		pointer += 4
+		pointer += 4;
 		return Token(TokenType::TOKEN_ELSE, "else");
 	} else if (code.substr(pointer, 4) == "same") {
-		pointer += 4
+		pointer += 4;
 		return Token(TokenType::TOKEN_SAME, "same");
 	} else if (code.substr(pointer, 2) == "or") {
-		pointer += 2
+		pointer += 2;
 		return Token(TokenType::TOKEN_OR, "or");
 	} else if (code.substr(pointer, 3) == "and") {
-		pointer += 3
+		pointer += 3;
 		return Token(TokenType::TOKEN_AND, "and");
 	} else if (code.substr(pointer, 4) == "more") {
-		pointer += 4
+		pointer += 4;
 		return Token(TokenType::TOKEN_MORE, "more");
 	} else if (code.substr(pointer, 4) == "less") {
-		pointer += 4
+		pointer += 4;
 		return Token(TokenType::TOKEN_LESS, "less");
 	} else if (code.substr(pointer, 3) == "not") {
-		pointer += 3
+		pointer += 3;
 		return Token(TokenType::TOKEN_NOT, "not");
 	} else if (code.substr(pointer, 4) == "open") {
-		pointer += 4
+		pointer += 4;
 		return Token(TokenType::TOKEN_OPEN, "open");
 	} else if (code.substr(pointer, 5) == "close") {
-		pointer += 5
+		pointer += 5;
 		return Token(TokenType::TOKEN_CLOSE, "close");
 	}
 	else {

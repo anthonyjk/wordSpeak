@@ -35,6 +35,10 @@ public:
     bool isIntSymbol(std::string symbol) const;
 
     bool isStrSymbol(std::string symbol) const;
+
+    void conditional();
+
+    void whileLoop();
 };
 
 #endif
