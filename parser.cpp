@@ -29,7 +29,12 @@ void Parser::parse() {
         } else if (tokens[pointer].getType() == TOKEN_INTEGER) {
             defaultDisplay();
         } else if (tokens[pointer].getType() == TOKEN_IF) {
-            conditional();
+            std::cout << "running if statement" << std::endl;
+            std::vector<Token> conditions = collectConditional();
+            if(!conditionTrue(conditions)){
+                skipCondition();
+            }
+
         }
 
         else if (tokens[pointer].getType() == TOKEN_WHILE) {
@@ -103,7 +108,7 @@ void Parser::defaultDisplay() {
         int value = expression();
         std::cout << value << std::endl;
     } else if (tokens[pointer].getType() == TOKEN_ID) {
-        pointer -= 1;
+        pointer--;
         sayStatement();
     }
 }
@@ -146,22 +151,58 @@ bool Parser::isStrSymbol(std::string symbol) const {
     return false;
 }
 
-void Parser::conditional() {
+std::vector<Token> Parser::collectConditional() {
     std::vector<Token> conditions;
     advance();
     while(tokens[pointer].getType() != TOKEN_OPEN) {
-        if(tokens[pointer].getType() == TOKEN_NEWLINE) {
-            // Raise error
+        if(tokens[pointer].getType() == TOKEN_NEWLINE || tokens[pointer].getType() == TOKEN_EOF) {
+            std::cout << "Invalid Syntax" << std::endl;
+            break;
         }
-        conditions.push_back(tokens[pointer]);
+
+        if(tokens[pointer].getType() == TOKEN_INTEGER || (tokens[pointer].getType() == TOKEN_ID && isIntSymbol(tokens[pointer].getValue()))) {
+            int value = expression();
+            conditions.push_back(Token(TokenType::TOKEN_INTEGER, std::to_string(value)));
+            pointer--; // Handles over stepping
+        } else {
+            conditions.push_back(tokens[pointer]);
+        }
         advance();
     }
-    for (int i = 0; i < conditions.size(); i++) {
-        std::cout << "test";//conditions[i];
+
+    return conditions;
+}
+
+bool Parser::conditionTrue(std::vector<Token> conditions) {
+
+    int c_left = std::stoi(conditions[0].getValue());
+    int c_right = std::stoi(conditions[2].getValue());
+    if(conditions.size() == 3) {
+        if(conditions[1].getType() == TOKEN_LESS) {
+            return(c_left < c_right);
+        }
+        else if(conditions[1].getType() == TOKEN_MORE) {
+            return(c_left > c_right);
+        }
+        else if(conditions[1].getType() == TOKEN_SAME) {
+            return(c_left == c_right);
+        }
+        else if(conditions[1].getType() == TOKEN_NOT) {
+            return(c_left != c_right);
+        }
     }
+    return false;
+
+    // Handle 'and' and 'or' statements later (outside of this func, should be calling this func twice)
 }
 
 void Parser::whileLoop() {
     // pass
+}
+
+void Parser::skipCondition() {
+    while(tokens[pointer].getType() != TOKEN_CLOSE) {
+        pointer++;
+    }
 }
 

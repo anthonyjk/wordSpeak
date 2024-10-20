@@ -36,9 +36,13 @@ public:
 
     bool isStrSymbol(std::string symbol) const;
 
-    void conditional();
+    std::vector<Token> collectConditional();
+
+    bool conditionTrue(std::vector<Token> conditions);
 
     void whileLoop();
+
+    void skipCondition();
 };
 
 #endif

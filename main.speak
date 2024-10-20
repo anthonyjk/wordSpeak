@@ -1,7 +1,7 @@
-say testing if statements endwords
+say words testing if statements endwords
 
-give x as 3
+give x as 4
 
-if 3 less x open
+if 5 less x open
 say words test endwords
 close
