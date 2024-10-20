@@ -1,13 +1,13 @@
 say words testing while statement endwords
 
-- The equation will be y = 3x + 1 -
+- The equation will be y = 3x - 1 -
 
 give cons as 1
 give x as 0
 
 while x not 10 open
 
-    give y as x plus x plus x plus cons
+    give y as x plus x plus x minus cons
 
     say  y
 

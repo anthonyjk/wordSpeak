@@ -15,30 +15,36 @@ void Parser::advance() {
 
 void Parser::parse() {
     while(pointer < tokens.size()) {
-        if(tokens[pointer].getType() == TOKEN_ID) {
-            Token id_token = tokens[pointer];
-            advance();
-            if (tokens[pointer].getType() == TOKEN_AS) {
-                assignSymbol(id_token);
-            } else {
-                pointer -= 1;
+        switch(tokens[pointer].getType()) {
+            case TOKEN_ID:
+                {
+                    Token id_token = tokens[pointer];
+                    advance();
+                    if (tokens[pointer].getType() == TOKEN_AS) {
+                        assignSymbol(id_token);
+                    } else {
+                        pointer -= 1;
+                        defaultDisplay();
+                    }
+                }
+                break;
+            case TOKEN_SAY:
+                sayStatement();
+                break;
+            case TOKEN_INTEGER:
                 defaultDisplay();
-            }
-        } else if (tokens[pointer].getType() == TOKEN_SAY) {
-            sayStatement();
-        } else if (tokens[pointer].getType() == TOKEN_INTEGER) {
-            defaultDisplay();
-        } else if (tokens[pointer].getType() == TOKEN_IF) {
-            std::cout << "running if statement" << std::endl;
-            std::vector<Token> conditions = collectConditional();
-            if(!conditionTrue(conditions)){
-                skipCondition();
-            }
-
-        }
-
-        else if (tokens[pointer].getType() == TOKEN_WHILE) {
-            whileLoop();
+                break;
+            case TOKEN_IF:
+                {
+                    std::vector<Token> conditions = collectConditional();
+                    if(!conditionTrue(conditions)){
+                        skipCondition();
+                    }
+                }
+                break;
+            case TOKEN_WHILE:
+                whileLoop();
+                break;
         }
         advance();
     }
@@ -117,22 +123,28 @@ void Parser::sayStatement() {
     advance(); // skip say token
 
     while (tokens[pointer].getType() != TOKEN_NEWLINE && tokens[pointer].getType() != TOKEN_EOF) {
-        if (tokens[pointer].getType() == TOKEN_STRING) {
-            std::cout << tokens[pointer].getValue();
-        } else if (tokens[pointer].getType() == TOKEN_ID) {
-            if (isIntSymbol(tokens[pointer].getValue())) {
-                int value = expression();
-                std::cout << value;
-            } else if (isStrSymbol(tokens[pointer].getValue())) {
-                std::cout << str_symbols[tokens[pointer].getValue()];
-            }
-        } else if (tokens[pointer].getType() == TOKEN_INTEGER) {
-            int value = expression();
-            std::cout << value;
+        switch(tokens[pointer].getType()) {
+            case TOKEN_STRING:
+                std::cout << tokens[pointer].getValue();
+                break;
+            case TOKEN_INTEGER:
+                {
+                    int value = expression();
+                    std::cout << value;
+                }
+                break;
+            case TOKEN_ID:
+                {
+                    if (isIntSymbol(tokens[pointer].getValue())) {
+                        int value = expression();
+                        std::cout << value;
+                    } else if (isStrSymbol(tokens[pointer].getValue())) {
+                        std::cout << str_symbols[tokens[pointer].getValue()];
+                    }
+                }
+                break;
         }
-
         advance();
-
     }
     std::cout << "\n";
 }
@@ -178,17 +190,19 @@ bool Parser::conditionTrue(std::vector<Token> conditions) {
     int c_left = std::stoi(conditions[0].getValue());
     int c_right = std::stoi(conditions[2].getValue());
     if(conditions.size() == 3) {
-        if(conditions[1].getType() == TOKEN_LESS) {
-            return(c_left < c_right);
-        }
-        else if(conditions[1].getType() == TOKEN_MORE) {
-            return(c_left > c_right);
-        }
-        else if(conditions[1].getType() == TOKEN_SAME) {
-            return(c_left == c_right);
-        }
-        else if(conditions[1].getType() == TOKEN_NOT) {
-            return(c_left != c_right);
+        switch(conditions[1].getType()) {
+            case TOKEN_LESS:
+                return(c_left < c_right);
+                break;
+            case TOKEN_MORE:
+                return(c_left > c_right);
+                break;
+            case TOKEN_SAME:
+                return(c_left == c_right);
+                break;
+            case TOKEN_NOT:
+                return(c_left != c_right);
+                break;
         }
     }
     return false;
@@ -210,38 +224,48 @@ void Parser::whileLoop() {
 
 void Parser::whileParse(int init_pointer) {
     int prev_close = 0;
-    while(pointer < tokens.size()) {
-        if(tokens[pointer].getType() == TOKEN_ID) {
-            Token id_token = tokens[pointer];
-            advance();
-            if (tokens[pointer].getType() == TOKEN_AS) {
-                assignSymbol(id_token);
-            } else {
-                pointer -= 1;
-                defaultDisplay();
+    bool isMet = true;
+    while(pointer < tokens.size() && isMet) {
+        switch(tokens[pointer].getType()) {
+            case TOKEN_ID:
+            {
+                Token id_token = tokens[pointer];
+                advance();
+                if (tokens[pointer].getType() == TOKEN_AS) {
+                    assignSymbol(id_token);
+                } else {
+                    pointer -= 1;
+                    defaultDisplay();
+                }
             }
-        } else if (tokens[pointer].getType() == TOKEN_SAY) {
-            sayStatement();
-            pointer -= 2; // idk why this works but it does
-        } else if (tokens[pointer].getType() == TOKEN_INTEGER) {
-            defaultDisplay();
-        } else if (tokens[pointer].getType() == TOKEN_IF) {
-            std::vector<Token> conditions = collectConditional();
-            if(!conditionTrue(conditions)){
-                skipCondition();
-            } else {
-                prev_close++;
-            }
-
-        }
-        else if (tokens[pointer].getType() == TOKEN_WHILE) {
-            whileLoop();
-        } else if (tokens[pointer].getType() == TOKEN_CLOSE) {
-            if(prev_close > 0) {
-                prev_close--;
-            } else {
+            break;
+            case TOKEN_SAY:
+                sayStatement();
+                pointer -= 2;
                 break;
+            case TOKEN_INTEGER:
+                defaultDisplay();
+                break;
+            case TOKEN_IF:
+            {
+                std::vector<Token> conditions = collectConditional();
+                if(!conditionTrue(conditions)){
+                    skipCondition();
+                } else {
+                    prev_close++;
+                }
             }
+            break;
+            case TOKEN_WHILE:
+                whileLoop();
+                break;
+            case TOKEN_CLOSE:
+                if(prev_close > 0) {
+                    prev_close--;
+                } else {
+                    isMet = false;
+                }
+                break;
         }
         advance();
     }
