@@ -9,7 +9,15 @@ while x not 10 open
 
     give y as x plus x plus x plus cons
 
-    say y
+    say  y
+
+    if y less 10 open
+        say words y is less than 10 endwords
+    close
+
+    if y less 20 open
+        say words y is less than 20 endwords
+    close
 
     give x as x plus 1
 

@@ -209,7 +209,8 @@ void Parser::whileLoop() {
 }
 
 void Parser::whileParse(int init_pointer) {
-    while(pointer < tokens.size() && tokens[pointer].getType() != TOKEN_CLOSE) {
+    int prev_close = 0;
+    while(pointer < tokens.size()) {
         if(tokens[pointer].getType() == TOKEN_ID) {
             Token id_token = tokens[pointer];
             advance();
@@ -225,16 +226,22 @@ void Parser::whileParse(int init_pointer) {
         } else if (tokens[pointer].getType() == TOKEN_INTEGER) {
             defaultDisplay();
         } else if (tokens[pointer].getType() == TOKEN_IF) {
-            std::cout << "running if statement" << std::endl;
             std::vector<Token> conditions = collectConditional();
             if(!conditionTrue(conditions)){
                 skipCondition();
-                pointer++;
+            } else {
+                prev_close++;
             }
 
         }
         else if (tokens[pointer].getType() == TOKEN_WHILE) {
             whileLoop();
+        } else if (tokens[pointer].getType() == TOKEN_CLOSE) {
+            if(prev_close > 0) {
+                prev_close--;
+            } else {
+                break;
+            }
         }
         advance();
     }
