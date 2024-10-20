@@ -197,7 +197,50 @@ bool Parser::conditionTrue(std::vector<Token> conditions) {
 }
 
 void Parser::whileLoop() {
-    // pass
+    int init_pointer = pointer;
+    std::vector<Token> conditions = collectConditional();
+
+    if(conditionTrue(conditions)) {
+        whileParse(init_pointer);
+    } else {
+        skipCondition();
+    }
+
+}
+
+void Parser::whileParse(int init_pointer) {
+    while(pointer < tokens.size() && tokens[pointer].getType() != TOKEN_CLOSE) {
+        if(tokens[pointer].getType() == TOKEN_ID) {
+            Token id_token = tokens[pointer];
+            advance();
+            if (tokens[pointer].getType() == TOKEN_AS) {
+                assignSymbol(id_token);
+            } else {
+                pointer -= 1;
+                defaultDisplay();
+            }
+        } else if (tokens[pointer].getType() == TOKEN_SAY) {
+            sayStatement();
+            pointer -= 2; // idk why this works but it does
+        } else if (tokens[pointer].getType() == TOKEN_INTEGER) {
+            defaultDisplay();
+        } else if (tokens[pointer].getType() == TOKEN_IF) {
+            std::cout << "running if statement" << std::endl;
+            std::vector<Token> conditions = collectConditional();
+            if(!conditionTrue(conditions)){
+                skipCondition();
+                pointer++;
+            }
+
+        }
+        else if (tokens[pointer].getType() == TOKEN_WHILE) {
+            whileLoop();
+        }
+        advance();
+    }
+
+    pointer = init_pointer;
+    whileLoop();
 }
 
 void Parser::skipCondition() {

@@ -42,7 +42,11 @@ public:
 
     void whileLoop();
 
+    void whileParse(int init_pointer);
+
     void skipCondition();
+
+    int conditionSize();
 };
 
 #endif

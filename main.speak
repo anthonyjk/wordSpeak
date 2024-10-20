@@ -1,7 +1,16 @@
-say words testing if statements endwords
+say words testing while statement endwords
 
-give x as 4
+- The equation will be y = 3x + 1 -
 
-if 5 less x open
-say words test endwords
+give cons as 1
+give x as 0
+
+while x not 10 open
+
+    give y as x plus x plus x plus cons
+
+    say y
+
+    give x as x plus 1
+
 close
