@@ -5,7 +5,7 @@
 
 **Strings**
 
-Strings in wordSpeak are declared with the keyword 'words' and closed with 'endwords'
+Strings in wordSpeak are declared with the keyword ```words``` and closed with ```endwords```
 
 Example:
 
@@ -30,7 +30,7 @@ Any line that begins with a non-alphanumeric character will be a comment as it i
 Example:
 
 ```
-- This is a comment becaue it begins with non-alphanumeric character '-'
+- This is a comment because it begins with non-alphanumeric character '-'
 ```
 
 **Variable Assignment**
